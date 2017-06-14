@@ -23,9 +23,7 @@ onclick="toggle_visibility()">
 <img id="dragNdrop" class="EditSwitch" src="exclamation.png" draggable="true" ondragstart="drag2(event)"
  style="width:50px;height:50px;  
 position:absolute; top: 200px; left: 50px;";
-onMouseOver="this.style.cursor='pointer'"
-onclick="toggle_visibility()">
-
+onMouseOver="this.style.cursor='pointer'" />
 <img class="backroundImg" src="backround.jpg" ondragover="allowDrop(event)" ondrop="drop(event)"/ >
 
 
@@ -100,20 +98,22 @@ function drop(ev) {
     var data = ev.dataTransfer.getData(DragVar);
 var nodeCopy = document.getElementById(data).cloneNode(true);
   nodeCopy.id = "newId";
-  ev.target.appendChild(nodeCopy);	
-   if(DragVar=="info"){
+  ev.target.appendChild(nodeCopy);	  
+  switch(DragVar) {
+    case "info":
     showCoords(ev);
+	DragVar="";
+        break;
+    case "info2":
+		toggle_visibility();
 		DragVar="";
-
-  }else if(DragVar=="info2"){
-toggle_visibility();
-		DragVar="";
-
-  }
+        break;
+		
+    default:
+       alert('Default case');
+	   } 
+  
 }
-
-
-
 
 
 function image_In_a_Div(){
