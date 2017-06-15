@@ -42,11 +42,106 @@ var nodeCopy = document.getElementById(data).cloneNode(true);
 	   } 
   
 }//End of Drag&Drop
+//Create Functions
+var n=1;
 
+			function CreateContainer(l,t){
+	if(Edit){
+if (t!=null && t!="")				
+	{if (l != null && l != "")					
+	{				
+			CreateContainerDiv(t,l,n);
+						n= n + 1;
+			}									
+	}			
+	}	
+	}
+		
+function CreateContainerDiv(t,l,n)
+{
+		var New=n;
+		var div=document.createElement("div");
+		div.id="Container"+New;
+	div.class="Container";
+	div.width="50";
+	div.height="50";
+	div.style.position = "absolute";
+	div.style.top = t+'px';
+	div.style.left = l+'px';
+	document.body.appendChild(div); 
+    var foo = document.getElementById("bigImage");
+    foo.appendChild(div);
+	InfoSpotImage(New);
+}
 
+function InfoSpotImage(New)
+{	
+    //dynamically add an image and set its attribute
+    var img=document.createElement("img");
+	img.id="info"+New
+	img.className="exclamation"
+    img.src="exclamation.png"
+	img.onmouseover = function() {  this.style.cursor = 'pointer';};
+  	img.onclick = function() { toggle_visibility(New)};
+	img.width="50"
+	img.height="50"
 
+    var foo = document.getElementById("Container"+New);
+    foo.appendChild(img);
+	CreateFrameDiv(New);
+}
+function CreateFrameDiv(New)
+{
+	var div=document.createElement("div");
+	div.id="Frame"+New;
+	div.className="Frame";
+	
+	document.body.appendChild(div); 
+    var foo = document.getElementById("Container"+New);
+    foo.appendChild(div);
+	ExitButton(New);
+	CreateContentDiv(New);
 
+}
+function ExitButton(New)
+{	
+    var img=document.createElement("img");
+	img.id="Exit"+New
+	img.className="exitButton"
+    img.src="X-button.png"
+	img.onmouseover = function() {  this.style.cursor = 'pointer';};
+  	img.onclick = function() { toggle_visibility(New)};
+	img.width="50"
+	img.height="50"
 
+    var foo = document.getElementById("Frame"+New);
+    foo.appendChild(img);
+}
+function CreateContentDiv(New)
+{
+		var Title=document.createElement("input");
+		Title.id="Title"+New;
+		Title.className="Title";
+		Title.type="text";
+		Title.value="meditating person";
+		document.body.appendChild(Title); 
+		var foo = document.getElementById("Frame"+New);
+		foo.appendChild(Title);
+		//---------------------
+		var TextBox=document.createElement("div");
+		var string="";
+		var text = document.createTextNode("Hello World");
+		TextBox.id="EditBox"+New;
+		TextBox.className="EditBox";
+		document.body.appendChild(TextBox); 
+		TextBox.appendChild(text);
+		var foo = document.getElementById("Frame"+New);
+		foo.appendChild(TextBox);
+		
+}
+//End of Create Functions
+
+//Toggles
 function toggle_visibility(New) 
     {
         var e = document.getElementById("Frame"+New);
@@ -54,14 +149,19 @@ function toggle_visibility(New)
         if ( e.style.visibility == 'visible' ){
 			e.style.visibility = 'hidden';
 			c.style.display = 'block';
+			e.style.zIndex="0";
 		}
         else{
             e.style.visibility = 'visible';
-			c.style.display = 'none';
+			c.style.display = 'none';				
+			e.style.zIndex="3";
+
 		}
 	}
+	
 var area1;
 var Edit=false;
+
 function EditSwitchCheck(){
 if(document.getElementById('togBtn').checked) {
 		Edit=false;
@@ -71,20 +171,38 @@ if(document.getElementById('togBtn').checked) {
 
 }
 }
+
 function toggleEdit() {
 	if(!Edit) {
 		Edit=true;
 	} else {
 		Edit=false;
 }
-		toggleTextEditBox() 
+
+		ToggleAllTextEditBoxes();
+
 }
-function toggleTextEditBox() {
+
+function ToggleAllTextEditBoxes(){
+	
+	toggleTextEditBox("");
+	var I=1;
+	while(I>0){
+		var Check=document.getElementById("EditBox"+I);
+		if(Check){
+	toggleTextEditBox(I);
+	I=I+1;
+		 }else{I=0;}
+	}
+}
+
+function toggleTextEditBox(New) {
 	if(Edit) {
-		area1 = new nicEditor({fullPanel : true}).panelInstance('EditBox',{hasPanel : true});
+		area1 = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true});
 	} else {
-		area1.removeInstance('EditBox');
+		area1.removeInstance('EditBox'+New);
 		area1 = null;
 	}
 }
 
+//End of Toggles
