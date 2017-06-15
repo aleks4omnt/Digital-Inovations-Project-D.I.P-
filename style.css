@@ -21,8 +21,9 @@ float:right;
 }
 .EditBox{
 	float:bottom;
-min-height:500p;
-background-color:white;
+min-height:100px;
+min-width:200px;
+background-color:White;
 }
 .Frame{	
 visibility: hidden;
@@ -37,12 +38,12 @@ visibility: hidden;
 	margin: 0px;
 	}
 .Title{
-	width:88%;
+	width:86%;
 	margin-right:0px;
 }
 .exitButton{
-width:9%;
-height:17px;
+	width:9%;
+	height:19px;
 	float:right;
 	margin-left:0px;
 

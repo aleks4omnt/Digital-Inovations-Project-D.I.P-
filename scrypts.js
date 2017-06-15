@@ -1,12 +1,12 @@
 //drag&drop related functions
 
 		var DragVar="";
-function showCoords(event) {
+function CreateInfoSpot(event) {
     var x = event.clientX;
     var y = event.clientY;
 	y = y-25;
 	x = x-25;
-disp_prompt_Div(x,y);
+CreateContainer(x,y);
 }
 function allowDrop(ev) {
     ev.preventDefault();
@@ -29,7 +29,7 @@ var nodeCopy = document.getElementById(data).cloneNode(true);
   ev.target.appendChild(nodeCopy);	  
   switch(DragVar) {
     case "info":
-    showCoords(ev);
+    CreateInfoSpot(ev);
 	DragVar="";
         break;
     case "info2":
@@ -42,13 +42,15 @@ var nodeCopy = document.getElementById(data).cloneNode(true);
 	   } 
   
 }//End of Drag&Drop
-		var n=1;
 
-function toggle_visibility() 
+
+
+
+
+function toggle_visibility(New) 
     {
-        var e = document.getElementById("Frame");
-		var c = document.getElementById("exclamation");
-		
+        var e = document.getElementById("Frame"+New);
+		var c = document.getElementById("info"+New);
         if ( e.style.visibility == 'visible' ){
 			e.style.visibility = 'hidden';
 			c.style.display = 'block';
@@ -56,13 +58,29 @@ function toggle_visibility()
         else{
             e.style.visibility = 'visible';
 			c.style.display = 'none';
-
 		}
 	}
 var area1;
+var Edit=false;
+function EditSwitchCheck(){
+if(document.getElementById('togBtn').checked) {
+		Edit=false;
+} else {
+		Edit=true;
+		toggleTextEditBox() 
 
-function toggleArea1() {
-	if(!area1) {
+}
+}
+function toggleEdit() {
+	if(!Edit) {
+		Edit=true;
+	} else {
+		Edit=false;
+}
+		toggleTextEditBox() 
+}
+function toggleTextEditBox() {
+	if(Edit) {
 		area1 = new nicEditor({fullPanel : true}).panelInstance('EditBox',{hasPanel : true});
 	} else {
 		area1.removeInstance('EditBox');

@@ -8,12 +8,11 @@
 <title>feature testing html</title>
 </head>
 <body>
-
-
+<script>window.onload = EditSwitchCheck;</script>
 <div id="bigImage" class="bigImage" >
 
 <label class="switch" onMouseOver="this.style.cursor='pointer'" >
-<input type="checkbox" id="togBtn" onclick="toggleArea1()" checked>
+<input type="checkbox" id="togBtn" onclick="toggleEdit()" checked>
 <div class="slider round">
 <span class="on">View</span>
 <span class="off">Edit</span>
@@ -34,20 +33,21 @@ position:absolute; top: 200px; left: 50px;";
 onMouseOver="this.style.cursor='pointer'" 
 / >
 
-<img class="backroundImg" src="backround.jpg" ondragover="allowDrop(event)" ondrop="drop(event)"/ >
+<img class="backroundImg" src="backround.jpg" ondragover="allowDrop(event)" 
+ondrop="drop(event)"/ >
 
 
 
 <div id="Container" class="Container" style="position:absolute; top: 100px; left: 480px; z-index: 3; ">
-	<img id="exclamation" class="exclamation" src="exclamation.png" alt="exclamation" style="width:50px;height:50px;";
+	<img id="info100" class="exclamation" src="exclamation.png" alt="exclamation" style="width:50px;height:50px;";
 			onMouseOver="this.style.cursor='pointer'"
-			onclick="toggle_visibility()" / >
-	<div id="Frame" class="Frame">
-	<img id="exitButton" class="exitButton" src="X-button.png"  
+			onclick="toggle_visibility(100)" / >
+	<div id="Frame100" class="Frame">
+	<img id="Exit100" class="exitButton" src="X-button.png"  
 			onMouseOver="this.style.cursor='pointer'"
-			onclick="toggle_visibility()">
+			onclick="toggle_visibility(100)">
 		<div id="Content" class="Content">
-			<input class="Title" type="text" name="Title" value="meditating person">
+			<input class="Title" type="text" id="Title" value="meditating person">
 			<div id="EditBox" class="EditBox">
 		This is some TEST CONTENT<br />
 		In a DIV Tag<br />
@@ -62,52 +62,102 @@ onMouseOver="this.style.cursor='pointer'"
 
 
 <script>
+
+
 		var n=1;
 
-function CreateDiv(t,l,n)
+			function CreateContainer(l,t){
+	if(Edit){
+if (t!=null && t!="")				
+	{if (l != null && l != "")					
+	{				
+			CreateContainerDiv(t,l,n);
+						n= n + 1;
+			}									
+	}			
+	}	
+	}
+		
+function CreateContainerDiv(t,l,n)
 {
-      var div=document.createElement("div");
-	  div.id="Container  "+n
-	div.class="Container"
-	div.width="50"
-	div.height="50"
+		var New=n;
+		var div=document.createElement("div");
+		div.id="Container"+New;
+	div.class="Container";
+	div.width="50";
+	div.height="50";
 	div.style.position = "absolute";
 	div.style.top = t+'px';
 	div.style.left = l+'px';
 	document.body.appendChild(div); 
     var foo = document.getElementById("bigImage");
     foo.appendChild(div);
-	image();
+	InfoSpotImage(New);
 }
 
-function image()
-{
+function InfoSpotImage(New)
+{	
     //dynamically add an image and set its attribute
     var img=document.createElement("img");
-	img.id="info  "+n
+	img.id="info"+New
 	img.className="exclamation"
     img.src="exclamation.png"
 	img.onmouseover = function() {  this.style.cursor = 'pointer';};
-  	img.onclick = function() { toggle_visibility()};
+  	img.onclick = function() { toggle_visibility(New)};
 	img.width="50"
 	img.height="50"
 
-    var foo = document.getElementById("Container  "+n);
+    var foo = document.getElementById("Container"+New);
+    foo.appendChild(img);
+	CreateFrameDiv(New);
+}
+function CreateFrameDiv(New)
+{
+	var div=document.createElement("div");
+	div.id="Frame"+New;
+	div.className="Frame";
+	
+	document.body.appendChild(div); 
+    var foo = document.getElementById("Container"+New);
+    foo.appendChild(div);
+	ExitButton(New);
+	CreateContentDiv(New);
+
+}
+function ExitButton(New)
+{	
+    var img=document.createElement("img");
+	img.id="Exit"+New
+	img.className="exitButton"
+    img.src="X-button.png"
+	img.onmouseover = function() {  this.style.cursor = 'pointer';};
+  	img.onclick = function() { toggle_visibility(New)};
+	img.width="50"
+	img.height="50"
+
+    var foo = document.getElementById("Frame"+New);
     foo.appendChild(img);
 }
+function CreateContentDiv(New)
+{
+		var Title=document.createElement("input");
+		Title.id="Title"+New;
+		Title.className="Title";
+		Title.type="text";
+		Title.value="meditating person";
+		document.body.appendChild(Title); 
+		var foo = document.getElementById("Frame"+New);
+		foo.appendChild(Title);
+		//---------------------
+		var TextBox=document.createElement("div");
+		TextBox.id="EditBox";
+		TextBox.className="EditBox";
 
+		document.body.appendChild(TextBox); 
+		var foo = document.getElementById("Frame"+New);
+		foo.appendChild(TextBox);
+	
+		
+}
 
-	function disp_prompt_Div(l,t){
-	/*
-	var t=prompt("Please enter top","")
-	var l=prompt("Please enter left","")	
-*/	
-if (t!=null && t!="")				
-	{if (l != null && l != "")					
-	{				
-			CreateDiv(t,l,n);
-						n= n + 1;
-			}									
-	}			
-	}	
 </script>
