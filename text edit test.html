@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="style.css">
+<script src="scrypts.js" type="text/javascript"></script>
+<script src="nicEdit2.js" type="text/javascript"></script>
+
+<head>
+<title>edit testing html</title>
+</head>
+<body>
+
+<button name="state" id="state" onclick="disable()" >disable</button>
+<button name="state" id="copy" onclick="copy()" >copy</button>
+<button name="state" id="copy" onclick="change()" >change css</button>
+
+<br>
+input1: <input type="text" id="input1" class="d"><br>
+input1-2: <input type="text" id="myP" class="d1"><br>
+</br>
+input2: <input type="text" id="input2" class="d"><br>
+input2-2: <input type="text" id="input2-2" class="d1"><br>
+
+</body>
+
+<style>
+
+.d{
+	background-color:white;
+	color:green;
+}
+
+.d1{
+	background-color:white;
+	color:green;
+}
+</style>
+<script>
+function copy(){
+    var x = document.getElementById("myP").value;
+    document.getElementById("input1").value = x;
+
+}
+var edit=true;
+
+function change() {
+    var elements = document.getElementsByClassName("d1");
+	if(edit){
+	changeCss(elements, '500px', '500px');
+	
+	}else{
+	changeCss(elements, false);
+	}
+	}
+	
+function disable() {
+    var elements = document.getElementsByClassName("d");
+    var elements2 = document.getElementsByClassName("d1");
+	if(edit){
+	doIt(elements, true);
+	doIt(elements2, true);
+	//changeCss(elements2, '500px', '500px');
+
+	edit=false;
+	}else{
+	doIt(elements, false);
+	doIt(elements2, false);
+	//changeCss(elements, '100px', '100px');
+
+	edit=true;
+	}
+	}
+
+function doIt(elements, status) {
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].disabled = status;
+    }
+}
+    function changeCss(elements, h, l) {
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.height = h;
+        elements[i].style.width = l;
+
+    }
+}
+</script>

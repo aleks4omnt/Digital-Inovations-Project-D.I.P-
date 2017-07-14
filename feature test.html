@@ -6,6 +6,7 @@
 
 <head>
 <title>feature testing html</title>
+<p id="counter" data-count="1"></p>
 </head>
 <body>
 <script>window.onload = EditSwitchCheck;</script>
@@ -26,19 +27,25 @@ position:absolute; top: 100px; left: 50px;";
 onMouseOver="this.style.cursor='pointer'"
 / >
 
-<img id="dragNdrop" class="EditSwitch" src="exclamation.png" 
-draggable="true" ondragstart="drag2(event)"
+<img id="TrashCan" class="EditSwitch" src="recycle.png" 
  style="width:50px;height:50px;  
 position:absolute; top: 200px; left: 50px;";
 onMouseOver="this.style.cursor='pointer'" 
+ondragover="allowDrop(event)" 
+draggable="false"
+ondrop="deleteDrop(event)"
 / >
 
-<img class="backroundImg" src="backround.jpg" ondragover="allowDrop(event)" 
+<img class="backroundImg" src="backround.jpg" 
+ondragover="allowDrop(event)" 
+draggable="false"
 ondrop="drop(event)"/ >
 
 
 
-<div id="Container" class="Container" style="position:absolute; top: 100px; left: 480px; z-index: 3; ">
+<div id="Container" class="Container"
+ draggable="true" ondragstart="move(event,'')"
+ style="position:absolute; top: 100px; left: 480px; z-index: 3; ">
 	<img id="info100" class="exclamation" src="exclamation.png" alt="exclamation" style="width:50px;height:50px;";
 			onMouseOver="this.style.cursor='pointer'"
 			onclick="toggle_visibility(100)" / >
@@ -48,7 +55,7 @@ ondrop="drop(event)"/ >
 			onclick="toggle_visibility(100)">
 		<div id="Content" class="Content">
 			<input class="Title" type="text" id="Title" value="meditating person">
-			<div id="EditBox" class="EditBox">
+			<div id="EditBox100" class="EditBox">
 		This is some TEST CONTENT<br />
 		In a DIV Tag<br />
 		Click the Buttons to activate
@@ -64,100 +71,14 @@ ondrop="drop(event)"/ >
 <script>
 
 
-		var n=1;
 
-			function CreateContainer(l,t){
-	if(Edit){
-if (t!=null && t!="")				
-	{if (l != null && l != "")					
-	{				
-			CreateContainerDiv(t,l,n);
-						n= n + 1;
-			}									
-	}			
-	}	
-	}
+
+function spotCounter()
+	{
+	document.getElementById("counter");
+
+
+}
 		
-function CreateContainerDiv(t,l,n)
-{
-		var New=n;
-		var div=document.createElement("div");
-		div.id="Container"+New;
-	div.class="Container";
-	div.width="50";
-	div.height="50";
-	div.style.position = "absolute";
-	div.style.top = t+'px';
-	div.style.left = l+'px';
-	document.body.appendChild(div); 
-    var foo = document.getElementById("bigImage");
-    foo.appendChild(div);
-	InfoSpotImage(New);
-}
-
-function InfoSpotImage(New)
-{	
-    //dynamically add an image and set its attribute
-    var img=document.createElement("img");
-	img.id="info"+New
-	img.className="exclamation"
-    img.src="exclamation.png"
-	img.onmouseover = function() {  this.style.cursor = 'pointer';};
-  	img.onclick = function() { toggle_visibility(New)};
-	img.width="50"
-	img.height="50"
-
-    var foo = document.getElementById("Container"+New);
-    foo.appendChild(img);
-	CreateFrameDiv(New);
-}
-function CreateFrameDiv(New)
-{
-	var div=document.createElement("div");
-	div.id="Frame"+New;
-	div.className="Frame";
-	
-	document.body.appendChild(div); 
-    var foo = document.getElementById("Container"+New);
-    foo.appendChild(div);
-	ExitButton(New);
-	CreateContentDiv(New);
-
-}
-function ExitButton(New)
-{	
-    var img=document.createElement("img");
-	img.id="Exit"+New
-	img.className="exitButton"
-    img.src="X-button.png"
-	img.onmouseover = function() {  this.style.cursor = 'pointer';};
-  	img.onclick = function() { toggle_visibility(New)};
-	img.width="50"
-	img.height="50"
-
-    var foo = document.getElementById("Frame"+New);
-    foo.appendChild(img);
-}
-function CreateContentDiv(New)
-{
-		var Title=document.createElement("input");
-		Title.id="Title"+New;
-		Title.className="Title";
-		Title.type="text";
-		Title.value="meditating person";
-		document.body.appendChild(Title); 
-		var foo = document.getElementById("Frame"+New);
-		foo.appendChild(Title);
-		//---------------------
-		var TextBox=document.createElement("div");
-		TextBox.id="EditBox";
-		TextBox.className="EditBox";
-
-		document.body.appendChild(TextBox); 
-		var foo = document.getElementById("Frame"+New);
-		foo.appendChild(TextBox);
-	
-		
-}
 
 </script>
