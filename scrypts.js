@@ -1,6 +1,15 @@
 //move function
+function moveContainer(event,id){
 
-
+	var x = event.clientX;
+    var y = event.clientY;
+	y = y-25;
+	x = x-25;
+var parent = document.getElementById("bigImage");
+var child = document.getElementById("Container"+id);
+	child.style.top = y+'px';
+	child.style.left = x+'px';
+}
 
 
 
@@ -14,11 +23,13 @@ parent.removeChild(child);
 }
 function deleteDrop(ev) {
     ev.preventDefault();
+		if(Edit){
   if(DragVar=="move"){
 	  deleteContainer(moveVar);
 		DragVar="";
 		moveVar="";
   }
+}
 }
 //delete function
 
@@ -58,7 +69,11 @@ function drop(ev) {
 	DragVar="";
         break;
     case "move":
-		
+	
+			if(Edit){
+		moveContainer(ev,moveVar)
+			}
+	
 		DragVar="";
 		moveVar="";
         break;
@@ -69,10 +84,11 @@ function drop(ev) {
   
 }//End of Drag&Drop
 
+
 //Create Functions
 var n=1;
 
-			function CreateContainer(l,t){
+function CreateContainer(l,t){
 	if(Edit){
 if ((t!=null && t!="")&&(l != null && l != ""))	
 	{
@@ -185,7 +201,12 @@ function toggle_visibility(New)
 			e.style.zIndex="3";
 
 		}
-		
+		/*for(var i=0;i<15;i++){
+		if(i!=New){
+			toggle_visibility(i);
+		}
+		}
+		*/
 
 		toggleTextEditBox(New);
 
@@ -210,7 +231,6 @@ function toggleEdit() {
 	} else {
 		Edit=false;
 }
-
 		//toggleTextEditBox(2)
 		//ToggleAllTextEditBoxes();
 }
@@ -230,12 +250,14 @@ function ToggleAllTextEditBoxes(){
 		 //}else{I=0;}
 	//}
 }
-
 function toggleTextEditBox(New) {
+	
 	if(Edit) {
 		area1 = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true});
 	} else {
 		area1.removeInstance('EditBox'+New);
+		area1 = null;
+
 	}
 }
 

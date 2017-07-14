@@ -5,8 +5,11 @@
 <script src="nicEdit2.js" type="text/javascript"></script>
 
 <head>
+
+  <meta charset="UTF-8">
 <title>feature testing html</title>
 <p id="counter" data-count="1"></p>
+
 </head>
 <body>
 <script>window.onload = EditSwitchCheck;</script>
@@ -37,6 +40,7 @@ ondrop="deleteDrop(event)"
 / >
 
 <img class="backroundImg" src="backround.jpg" 
+onmousedown="return false"
 ondragover="allowDrop(event)" 
 draggable="false"
 ondrop="drop(event)"/ >
