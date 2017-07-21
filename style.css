@@ -26,7 +26,8 @@ min-width:200px;
 background-color:White;
 }
 .Frame{	
-	visibility:hidden;
+	/*display : none;*/
+	visibility : hidden;
 	position:fixed;
 	border-style:solid;
     border-width: 1px;

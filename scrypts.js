@@ -10,9 +10,6 @@ var child = document.getElementById("Container"+id);
 	child.style.top = y+'px';
 	child.style.left = x+'px';
 }
-
-
-
 //move function
 
 //delete functions
@@ -139,6 +136,7 @@ function CreateFrameDiv(New)
 	var div=document.createElement("div");
 	div.id="Frame"+New;
 	div.className="Frame";
+	div.style.position = "relative";
 	
 	document.body.appendChild(div); 
     var foo = document.getElementById("Container"+New);
@@ -190,29 +188,23 @@ function toggle_visibility(New)
     {
         var e = document.getElementById("Frame"+New);
 		var c = document.getElementById("info"+New);
+        //if ( e.style.display == 'block' ){
         if ( e.style.visibility == 'visible' ){
 			e.style.visibility = 'hidden';
+			//e.style.display = 'none';
 			//c.style.display = 'block';
 			e.style.zIndex="0";
 		}
         else{
             e.style.visibility = 'visible';
+            //e.style.display = 'block';
 			//c.style.display = 'none';				
 			e.style.zIndex="3";
-
+			toggleTextEditBox(New);
 		}
-		/*for(var i=0;i<15;i++){
-		if(i!=New){
-			toggle_visibility(i);
-		}
-		}
-		*/
-
-		toggleTextEditBox(New);
-
 	}
 	
-var area1;
+
 var Edit=false;
 
 function EditSwitchCheck(){
@@ -220,7 +212,7 @@ if(document.getElementById('togBtn').checked) {
 		Edit=false;
 } else {
 		Edit=true;
-		toggleTextEditBox() 
+		toggleTextEditBox();
 
 }
 }
@@ -231,33 +223,28 @@ function toggleEdit() {
 	} else {
 		Edit=false;
 }
-		//toggleTextEditBox(2)
-		//ToggleAllTextEditBoxes();
+		ToggleAllTextEditBoxes();
 }
 
+var area1=[];
 function ToggleAllTextEditBoxes(){
-	
-	
-	var I=1;
-	//while(I<3){
-		//var Check=document.getElementById("EditBox"+I);
-		//if(Check){
-	toggleTextEditBox(1);
-	//toggleTextEditBox(2);
-	//toggleTextEditBox(3);
-	
-	//I++;
-		 //}else{I=0;}
-	//}
+	for(i=area1.length-1;i>=0;i--){
+		if(typeof area1[i] != 'undefined'){
+			toggleTextEditBox(i);
+		
+			
+	}
 }
-function toggleTextEditBox(New) {
-	
-	if(Edit) {
-		area1 = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true});
-	} else {
-		area1.removeInstance('EditBox'+New);
-		area1 = null;
+}
 
+function toggleTextEditBox(New) {
+
+	if(Edit==true) {
+		area1[New] = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true});
+	} else {
+		area1[New].removeInstance('EditBox'+New);
+		area1[New]=null;
+		
 	}
 }
 
