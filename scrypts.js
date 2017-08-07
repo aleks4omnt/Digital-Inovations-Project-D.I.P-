@@ -1,4 +1,9 @@
-//move function
+function pano_ID(){
+	x=document.getElementById("pano_ID").getAttribute('value');;
+	 // alert(x);
+	return x;
+}
+//update  function
 function moveContainer(event,id){
 
 	var x = event.clientX;
@@ -9,14 +14,27 @@ var parent = document.getElementById("bigImage");
 var child = document.getElementById("Container"+id);
 	child.style.top = y+'px';
 	child.style.left = x+'px';
+	MoveSpot(id,x,y);
+
 }
-//move function
+function saveContent(New){
+		area1[New].removeInstance('EditBox'+New); 
+	var title= document.getElementById("Title"+New).value;
+	var content= document.getElementById("EditBox"+New).textContent;
+		area1[New] = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true}); 
+
+Save(New,title,content); 
+}
+	
+
+//update function
 
 //delete functions
 function deleteContainer(id){
 var parent = document.getElementById("bigImage");
 var child = document.getElementById("Container"+id);
 parent.removeChild(child);
+DeleteSpot(id);
 }
 function deleteDrop(ev) {
     ev.preventDefault();
@@ -83,20 +101,21 @@ function drop(ev) {
 
 
 //Create Functions
-var n=1;
 
 function CreateContainer(l,t){
+	// CreateSpot(type,Title,content,x,y);
 	if(Edit){
 if ((t!=null && t!="")&&(l != null && l != ""))	
 	{
-			CreateContainerDiv(t,l,n);
-						n= n + 1;
+			CreateSpot("text",'Some title','random',l,t,pano_ID());
+
+
 			}									
 				
 	}	
 	}
 		
-function CreateContainerDiv(t,l,n)
+function CreateContainerDiv(Title,Content,t,l,n)
 {
 		var New=n;
 		var div=document.createElement("div");
@@ -113,6 +132,7 @@ function CreateContainerDiv(t,l,n)
     var foo = document.getElementById("bigImage");
     foo.appendChild(div);
 	InfoSpotImage(New);
+	CreateFrameDiv(Title,Content,New);
 }
 
 function InfoSpotImage(New)
@@ -129,22 +149,22 @@ function InfoSpotImage(New)
 
     var foo = document.getElementById("Container"+New);
     foo.appendChild(img);
-	CreateFrameDiv(New);
 }
-function CreateFrameDiv(New)
+function CreateFrameDiv(Title,Content,New)
 {
 	var div=document.createElement("div");
 	div.id="Frame"+New;
 	div.className="Frame";
-	div.style.position = "relative";
+	div.style.position = "absolute";
 	
 	document.body.appendChild(div); 
     var foo = document.getElementById("Container"+New);
     foo.appendChild(div);
 	ExitButton(New);
-	CreateContentDiv(New);
-
+	CreateContentDiv(Title,Content,New);
+	SaveButton(New);
 }
+
 function ExitButton(New)
 {	
     var img=document.createElement("img");
@@ -153,26 +173,37 @@ function ExitButton(New)
     img.src="X-button.png"
 	img.onmouseover = function() {  this.style.cursor = 'pointer';};
   	img.onclick = function() { toggle_visibility(New)};
-	img.width="50"
-	img.height="50"
+	
 
     var foo = document.getElementById("Frame"+New);
     foo.appendChild(img);
 }
-function CreateContentDiv(New)
+function SaveButton(New)
+{	
+    var img=document.createElement("img");
+	img.id="Save"+New
+	img.className="SaveButton"
+    img.src="save-button.png"
+	img.onmouseover = function() {  this.style.cursor = 'pointer';};
+  	img.onclick = function() { saveContent(New)};
+	img.style.width='100px';
+
+    var foo = document.getElementById("Frame"+New);
+    foo.appendChild(img);
+}
+function CreateContentDiv(title,Content,New)
 {
 		var Title=document.createElement("input");
 		Title.id="Title"+New;
 		Title.className="Title";
 		Title.type="text";
-		Title.value="meditating person";
+		Title.value=title;
 		document.body.appendChild(Title); 
 		var foo = document.getElementById("Frame"+New);
 		foo.appendChild(Title);
 		//---------------------
 		var TextBox=document.createElement("div");
-		var string="";
-		var text = document.createTextNode("Hello World");
+		var text = document.createTextNode(Content);
 		TextBox.id="EditBox"+New;
 		TextBox.className="EditBox";
 		document.body.appendChild(TextBox); 
@@ -193,13 +224,13 @@ function toggle_visibility(New)
 			e.style.visibility = 'hidden';
 			//e.style.display = 'none';
 			//c.style.display = 'block';
-			e.style.zIndex="0";
+			e.style.zIndex=0;
 		}
         else{
             e.style.visibility = 'visible';
             //e.style.display = 'block';
 			//c.style.display = 'none';				
-			e.style.zIndex="3";
+			e.style.zIndex=3;
 			toggleTextEditBox(New);
 		}
 	}
@@ -243,7 +274,7 @@ function toggleTextEditBox(New) {
 		area1[New] = new nicEditor({fullPanel : true}).panelInstance('EditBox'+New,{hasPanel : true});
 	} else {
 		area1[New].removeInstance('EditBox'+New);
-		area1[New]=null;
+
 		
 	}
 }
